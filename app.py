@@ -17,16 +17,20 @@ def predict():
     '''
     For rendering results on HTML GUI
     '''
-    int_features = [int(x) for x in request.form.values()]
-    print(int_features)
-    final_features = [np.array(int_features)]
-    print(final_features)
-    prediction = model.predict(final_features)
-    print(prediction)
-
+    area = float(request.form.get('area'))
+    bedroom = int(request.form.get('bedroom'))
+    bathrooms = int(request.form.get('bathrooms'))
+    stories = int(request.form.get('stories'))
+    guestroom = int(request.form.get('guestroom'))
+    basement = int(request.form.get('basement'))
+    parking = int(request.form.get('parking'))
+    areaperbedroom = float(request.form.get('areaperbedroom'))
+    bbratio = float(request.form.get('bbratio'))
+    prediction = model.predict(
+        [[area, bedroom, bathrooms, stories, guestroom, basement, parking, areaperbedroom, bbratio]])
     output = round(prediction[0], 2)
 
-    return render_template('index.html', prediction_text='The house price predicted is $ {}'.format(prediction))
+    return render_template('index.html', prediction_text='The house price predicted is Rupees {}'.format(output))
 
 
 if __name__ == "__main__":
